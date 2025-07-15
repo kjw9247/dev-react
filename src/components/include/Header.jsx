@@ -11,7 +11,7 @@ const Header = ({onLogout}) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Link to="/" className="nav-link">Home</Link>
-              <Link to="/index" className="nav-link">Index</Link>
+              <Link to="/emp" className="nav-link">사원관리</Link>
               <Link to="/signup" className="nav-link">회원가입</Link>
               <Link to="/login" className="nav-link">로그인</Link>
               <Link to="/dept" className="nav-link">부서관리</Link>

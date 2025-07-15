@@ -9,6 +9,8 @@ import DeptPageV2 from "./components/pages/DeptPageV2";
 import DeptDetail from "./components/dept/DeptDetail";
 import DeptDetailV2 from "./components/dept2/DeptDetailV2";
 import { useState } from "react";
+import EmpPage from "./components/pages/EmpPage";
+import EmpDetail from "./components/emp/EmpDetail";
 
 export default function App() {
   const [depts, setDepts] = useState([
@@ -47,7 +49,8 @@ export default function App() {
           <Route path="/" exact={true} 
           element={<NewsPage onLogout={onLogout} />} />
           <Route path="/login" exact={true} element={<LoginForm />} />
-          <Route path="/index" exact={true} element={<IndexPage />} />
+          <Route path="/emp" exact={true} element={<EmpPage />} />
+          <Route path="/empDetail/:p_empno" exact={true} element={<EmpDetail />} />
           <Route path="/signup" exact={true} element={<SignUpPage />} />
           <Route path="/dept" exact={true} element={<DeptPage />} />
           <Route path="/deptDetail/:p_deptno" exact={true} element={<DeptDetail />} />

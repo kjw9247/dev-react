@@ -1,36 +1,36 @@
 import axios from "axios";
 // select는 Rest API GET메서드 사용하고 파라미터는 쿼리스트링을 이용함
-export const deptListDB = async(params) => {
+export const empListDB = async(params) => {
   console.log(params);
   try {
     const res = await axios({
       method: "get",
-      url: process.env.REACT_APP_SPRING_IP+"dept/deptList",
+      url: process.env.REACT_APP_SPRING_IP+"emp/empList",
       params: params
     })
     // console.log(res);
     console.log(res.data);
     return res // 필요에 따라 res 혹은 res.data
   } catch (error) {
-    console.error("부서목록 조회 실패", error);
+    console.error("사원목록 조회 실패", error);
   }
 }
 
-export const deptDetailDB = async(params) => {
-  console.log(params); // {deptno:50}
+export const empDetailDB = async(params) => {
+  console.log(params); // {empno:50}
   try {
     const res = await axios({
       method: "get",
-      url: process.env.REACT_APP_SPRING_IP+"dept/deptDetail",
+      url: process.env.REACT_APP_SPRING_IP+"emp/empDetail",
       params: params
     })
     // console.log(res);
     console.log(res.data);
     return res // 필요에 따라 res 혹은 res.data
   } catch (error) {
-    console.error("부서상세 조회 실패", error);
+    console.error("사원상세 조회 실패", error);
   }
-}// end of deptDetailDB
+}// end of empDetailDB
 /*
 
 Postman -> Body -> form전송 or 객체리터럴(onChange)
@@ -43,52 +43,51 @@ Postman -> Body -> form전송 or 객체리터럴(onChange)
 
 */
 
-export const deptInsertDB = async(dept) => {
-  console.log(dept);
+export const empInsertDB = async(emp) => {
+  console.log(emp);
   try {
     const res = await axios({
       method: "post", // 405에러 뜨면 API메서드를 맞추지 못한것이다
-      url: process.env.REACT_APP_SPRING_IP+"dept/deptInsert",
-      data: dept
+      url: process.env.REACT_APP_SPRING_IP+"emp/empInsert",
+      data: emp
     })
     // console.log(res);
     console.log(res); // 1아니면 0이기때문에 data는 없다
     return res // 필요에 따라 res 혹은 res.data
   } catch (error) {
-    console.error("부서등록 조회 실패", error);
+    console.error("사원등록 실패", error);
   }
-}// end of deptInsertDB
+}// end of empInsertDB
 
-// put이랑 post는 데이터 넘겨주는 방법이 같음
-export const deptUpdateDB = async(dept) => {
-  console.log(dept);
+export const empUpdateDB = async(emp) => {
+  console.log(emp); // 화면에서 입력된 ㄱ밧
   try {
     const res = await axios({
       method: "put", // 405에러 뜨면 API메서드를 맞추지 못한것이다
-      url: process.env.REACT_APP_SPRING_IP+"dept/deptUpdate",
-      data: dept
+      url: process.env.REACT_APP_SPRING_IP+"emp/empUpdate",
+      data: emp
     })
     // console.log(res);
     console.log(res); // 1아니면 0이기때문에 data는 없다
     return res // 필요에 따라 res 혹은 res.data
   } catch (error) {
-    console.error("부서수정 조회 실패", error);
+    console.error("사원수정 실패", error);
   }
-}// end of deptUpdateDB
+}// end of empUpdateDB
 
 // DELETE FROM dept WHERE deptno=?
-export const deptDeleteDB = async(params) => {
+export const empDeleteDB = async(params) => {
   console.log(params); // {deptno:50}
   try {
     const res = await axios({
       method: "delete",
-      url: process.env.REACT_APP_SPRING_IP+"dept/deptDelete",
+      url: process.env.REACT_APP_SPRING_IP+"emp/empDelete",
       params: params
     })
     // console.log(res);
     console.log(res);
     return res // 필요에 따라 res 혹은 res.data
   } catch (error) {
-    console.error("부서삭제 조회 실패", error);
+    console.error("사원삭제 실패", error);
   }
 }// end of deptDeleteDB
