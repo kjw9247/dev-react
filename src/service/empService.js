@@ -1,4 +1,25 @@
 import axios from "axios";
+
+// 사원등록 모달에서 이미지 파일을 선택하면 이미지를 업로드 처리
+// 미리보기 기능 추가
+export const uploadImageDB = async(file) => {
+  const formData = new FormData()
+  formData.append("image", file)
+  try {
+    const res = await axios({
+      method: 'post',
+      url: process.env.REACT_APP_SPRING_IP + 'emp/imageUpload',
+      data: formData
+      // headers 생량가능 -> axios가 자동으로 Content-Type 처리
+    })
+    // 실제 선택한 파일명이 중복 될 수 있으므로 8000번 서버측에서 파일명을 갱신함
+    // 변경된 이름을 8000번에서 받아와야 한다
+    return res 
+  } catch (error) {
+    console.error("error", error);
+  }
+}
+
 // select는 Rest API GET메서드 사용하고 파라미터는 쿼리스트링을 이용함
 export const empListDB = async(params) => {
   console.log(params);
@@ -91,3 +112,5 @@ export const empDeleteDB = async(params) => {
     console.error("사원삭제 실패", error);
   }
 }// end of deptDeleteDB
+
+

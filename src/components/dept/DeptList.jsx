@@ -55,7 +55,12 @@ const DeptList = () => {
     setDepts(res.data)
     //setDepts(res)
   }
+  // 목록을 새로 가지고 오기 위해서 state훅을 하나 선언함
+  // 초기값은 0으로 하였고 변경점이 발생하면 0에 1을 더해서
+  // 상태값을 강제로 변경함
   useEffect(() => {
+    // 의존성 배열에 있는 refresh값이 변경될 때마다
+    // 아래 함수가 매번 다시 호출된다
     deptList()
   },[refresh])
   return (

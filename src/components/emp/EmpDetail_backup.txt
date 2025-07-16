@@ -4,16 +4,6 @@ import Footer from '../include/Footer'
 import { Button, Card, ListGroup } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { empDetailDB } from '../../service/empService'
-import styled from 'styled-components'
-import axios from 'axios'
-
-const Dspan = styled.span`
-  padding: 2px 5px 2px 5px;
-  font-size: 16px;
-  cursor: pointer;
-
-`
-
 //EmpDetail페이지는 오라클 서버를 먼저 경유한다.
 //
 const EmpDetail = () => {
@@ -41,12 +31,12 @@ const EmpDetail = () => {
     const asyncDB = async() => {
       const res = await empDetailDB({empno: p_empno})
       console.log(res.data);
-      // console.log(""+res.data);//[object Object]
+      //console.log(""+res.data);//[object Object]
       const result = JSON.stringify(res.data)
       const jsonDoc = JSON.parse(result)
-      setEmp({empno:jsonDoc.empno, ename:jsonDoc.ename, job:jsonDoc.job
-        ,mgr:jsonDoc.mgr, hiredate:jsonDoc.hiredate, sal:jsonDoc.sal
-        ,comm:jsonDoc.comm, deptno:jsonDoc.deptno, ephoto:jsonDoc.ephoto
+      setEmp({empno:jsonDoc[0].EMPNO, ename:jsonDoc[0].ENAME, job:jsonDoc[0].JOB
+        ,mgr:jsonDoc[0].MGR, hiredate: jsonDoc[0].HIREDATE, sal: jsonDoc[0].SAL
+        ,comm:jsonDoc[0].COMM, deptno: jsonDoc[0].DEPTNO, ephoto: jsonDoc[0].EPHOTO
       })
     }
     asyncDB()
@@ -77,25 +67,6 @@ const EmpDetail = () => {
             <ListGroup.Item>부서번호 : {emp.deptno}</ListGroup.Item>
             <ListGroup.Item>사진 : {emp.ephoto}</ListGroup.Item>
           </ListGroup>
-          <div>
-            <Dspan onClick={()=>{
-              axios({
-                method: 'get',
-                url: process.env.REACT_APP_SPRING_IP+`/imageDownload?imageName=${emp.ephoto}`,
-                responseType: 'blob'
-              }).then(res=>{
-                console.log(res.data);
-                const url = window.URL.createObjectURL(new Blob([res.data],
-                  {type: res.headers['Content-Type']}
-                ))
-                const link = document.createElement('a')
-                link.href = url;
-                link.setAttribute('download', `${emp.ephoto}`)
-                document.body.appendChild(link)
-                link.click()
-              })
-            }}>{emp.ephoto}</Dspan>
-          </div>
           <div className='detail-link'>
             <Button variant="success" onClick={handleShow}>
               수정
