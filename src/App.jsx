@@ -11,6 +11,7 @@ import DeptDetailV2 from "./components/dept2/DeptDetailV2";
 import { useState } from "react";
 import EmpPage from "./components/pages/EmpPage";
 import EmpDetail from "./components/emp/EmpDetail";
+import EmpPageV2 from "./components/pages/EmpPageV2";
 
 export default function App() {
   const [depts, setDepts] = useState([
@@ -18,7 +19,6 @@ export default function App() {
     {deptno:2, dname:'영업부', loc:'서울'},
     {deptno:3, dname:'총무부', loc:'대구'},
   ])
-  
   //하위 콤포넌트에서 새 객체를 추가 요청하면 실행될 함수 구현
   const handleAdd = (newDept) => {
     setDepts([...depts, newDept])
@@ -27,13 +27,14 @@ export default function App() {
     //setDepts(prev => [...prev, {deptno:5, dname:'품질관리', loc:'부산'}])
   }
   //하위에서 기존 객체를 수정 요청하면 실행할 함수
-  const handleUpdate = (newItem) => { 
+  const handleUpdate = (newItem) => {
     const index = depts.findIndex(item => item.deptno == newItem.deptno)
-    console.log(index); // -1 : end of file
+    console.log(index);//-1 : end of file
     depts[index].dname = newItem.dname
     depts[index].loc = newItem.loc
     setDepts([...depts])
   }
+
   const handleDelete = (pdept) => {
     console.log(pdept);
     const depts2 = depts.filter(item => item.deptno != pdept.deptno)
@@ -50,6 +51,7 @@ export default function App() {
           element={<NewsPage onLogout={onLogout} />} />
           <Route path="/login" exact={true} element={<LoginForm />} />
           <Route path="/emp" exact={true} element={<EmpPage />} />
+          <Route path="/emp2" exact={true} element={<EmpPageV2 />} />
           <Route path="/empDetail/:p_empno" exact={true} element={<EmpDetail />} />
           <Route path="/signup" exact={true} element={<SignUpPage />} />
           <Route path="/dept" exact={true} element={<DeptPage />} />

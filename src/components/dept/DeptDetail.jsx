@@ -5,29 +5,29 @@ import Footer from "../include/Footer"
 import Header from "../include/Header"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { deptDeleteDB, deptDetailDB, deptUpdateDB } from "../../service/deptService"
-// /deptDetail/:p_deptno
+///deptDetail/:p_deptno
 const DeptDetail = () => {
   const navigate = useNavigate()
-  // URL 파라미터에 달려 있는 부서번호 읽어오기
-  const {p_deptno} = useParams() // path 파라미터 값을 가져옴 - 바닐라 스크립트 URLSearchParams랑 역할이 같다
-  console.log(p_deptno); // delete form dept where deptno=p_deptno
+  //URL 파라미터에 달려 있는 부서번호 읽어오기
+  const {p_deptno} = useParams() //URLSearchParams
+  console.log(p_deptno);//delete from dept where deptno=p_deptno
   const [dname, setDname] = useState('')
   const [loc, setLoc] = useState('')
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  // update dept set dname = ?, loc=? where deptno=?
-  const [ dept, setDept ] = useState({
-    deptno: 0, // 조건절
-    dept: '', // 변경값
-    loc: '' // 변경값
+  //update dept set dname = ?, loc=? where deptno=?
+  const [ dept, setDept] = useState({
+    deptno: 0,//조건절
+    dname: '',//변경값
+    loc: ''//변경값
   })
-  // 상세보기 페이지에서 수정과 삭제를 처리한다
-  // 상세보기는 오라클 서버를 먼저 경유(select)하고 화면 출력한다
-  // 수정하기 버튼을 누르면 update를 요청한다
-  // 삭제하기는 상세보기를 눌렀을 때 path variable로 p_deptno를
-  // 가지고 있으므로 삭제 버튼을 눌렀을 때 훅이 아니라 p_deptno를 넘기면 된다
-  useEffect(()=>{
+  //상세보기 페이지에서 수정과 삭제를 처리한다.
+  //상세보기는 오라클 서버를 먼저 경유(select)하고 화면 출력한다.
+  //수정하기 버튼을 누르면 update요청한다.
+  //삭제하기는 상세보기를 눌렀을 때 path variable로 p_deptno
+  //가지고 있으므로 삭제 버튼을 눌렀을 때 훅이 아니라 p_deptno넘김
+  useEffect(()=> {
     const asyncDB = async() => {
       const res = await deptDetailDB({deptno: p_deptno})
       console.log(res);
@@ -36,9 +36,10 @@ const DeptDetail = () => {
       setDept({deptno:jsonDoc[0].deptno, dname: jsonDoc[0].dname, loc: jsonDoc[0].loc})
     }
     asyncDB()
-  },[p_deptno]) // 의존성 배열이 빈값이면 최초 한 번만 실행이 됨
+  },[p_deptno])//의존성 배열이 빈값이면 최초 한 번만 실행됨
+
   const deptUpdate = async(event) => {
-    console.log("deptUpdate");
+    console.log('deptUpdate');
     event.preventDefault()
     const dept = {
       deptno: p_deptno,
@@ -47,8 +48,9 @@ const DeptDetail = () => {
     }
     handleClose()//열린 모달 닫기
     const res = await deptUpdateDB(dept)
-    if(!res.data) console.log("수정 실패");
+    if(!res.data) console.log('수정 실패');
     else navigate('/dept')
+
   }
   const deptDelete = async() => {
     const res = await deptDeleteDB({deptno: p_deptno})
@@ -62,10 +64,9 @@ const DeptDetail = () => {
     setLoc(value)
   }
   return (
-    
-    <>
-    <Header />
 
+    <>
+      <Header />
       <div className="container">
         <div className="page-header">
           <h2>부서관리 <small>부서상세</small></h2>
@@ -93,7 +94,7 @@ const DeptDetail = () => {
       {/* ========================== [[ 수정 Modal ]] ========================== */}
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>부서수정</Modal.Title>
+          <Modal.Title>테스트수정</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
@@ -112,16 +113,16 @@ const DeptDetail = () => {
           <Button variant="secondary" onClick={handleClose}>
             닫기
           </Button>
-          <Button /* type="button" */ variant="primary" onClick={(event)=>deptUpdate(event)}> {/* 타입을 버튼이 아니라 그대로 유지할거라면 파라미터가 있다면, 그리고 위의 deptUpdate에도 변경점있음 */}
+          <Button variant="primary" onClick={(event)=>deptUpdate(event)}>
             저장
           </Button>
         </Modal.Footer>
       </Modal>     
       {/* ========================== [[ 수정 Modal ]] ========================== */}          
       </div>
-
-    <Footer />
+      <Footer />
     </>
+
   )
 }
 

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import EmpRow from './EmpRow'
-import { Button, Modal, Pagination } from 'react-bootstrap'
+import { Button, Modal } from 'react-bootstrap'
 import { MyInput, MyLabel } from '../style/FormStyle'
 import { empInsertDB, empListDB, uploadImageDB } from '../../service/empService'
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'
 
 const DivUploadImg = styled.div`
   display: flex;
@@ -25,28 +24,12 @@ const Img = styled.img`
 리액트 사용하는 장점 - 상태값,props이 바뀌면 화면을 다시 그린다
 부분갱신 처리가 가능하다.
 */
-const EmpList = () => {
-  const navigate = useNavigate()
-  const [emps, setEmps] = useState([])
-  //현재 내가 바라보는 페이지 정보
-  const [currentPage, setCurrentPage] = useState(1)
-  //한 페이지당 항목 수
-  const itemsPerPage = 5
-  //현재 페이지 출력될 로우 수 계산 - 이 값만큼만 반복문 돌리기
-  //slice
-  const currentItems = emps.slice((currentPage-1)*itemsPerPage, currentPage*itemsPerPage)
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber)
-    //URL 동기화
-    navigate(`?page=${pageNumber}`)
-  }
-  
-  //페이징 처리 결과에 따라서 화면을 재렌더링 하기
-
+const EmpList2 = () => {
   const [refresh, setRefresh] = useState(0)
   const [file, setFile] = useState('')
   //클라우드 서비스를 이용할 때는 아래 코드를 참조하세요.
   const [file2, setFile2] = useState({fileName:null, fileURL: null})
+  const [emps, setEmps] = useState([])
   const [empno, setEmpno] = useState(0)
   const [ename, setEname] = useState('')
   const [job, setJob] = useState('')
@@ -147,7 +130,7 @@ const EmpList = () => {
     setEmps(res.data)
   }
 
-const imgChange = async event => {
+  const imgChange = async event => {
     console.log(event.target.files[0]);
     //imageUploader.upload(event.target.files[0]).then(console.log);
     //await를 붙였으므로 업로드를 기다렸다가 처리함
@@ -213,36 +196,14 @@ const imgChange = async event => {
             {/* 데이터셋 연동하기 */}
             {/* props로 넘어온 상태값이 빈 깡통이면 실행하지 않기 */}
             <tbody>
-            {currentItems.map((emp, index) => (
-              <EmpRow key={index} emp={emp} page={currentPage} />
+            {Object.keys(emps).map(key => (
+              <EmpRow key={key} emp={emps[key]} />
             ))}
             </tbody>
             {/* 데이터셋 연동하기 */}
           </table>
 
           {/* 페이지 네비게이션 추가 */}
-          <div className='d-flex justify-content-center'>
-            <Pagination>
-              <Pagination.First onClick={()=> handlePageChange(1)}
-                disabled={currentPage === 1}
-              />
-              <Pagination.Prev onClick={()=> handlePageChange(currentPage-1)}
-                disabled={currentPage === 1}
-              />
-              {Array.from(
-                { length: Math.ceil(emps.length / itemsPerPage)},
-                (_,i) => i + 1).map((pageNumber) => (
-              <Pagination.Item
-                key={pageNumber}
-                active={pageNumber === currentPage}
-                onClick={()=>handlePageChange(pageNumber)}>
-                {pageNumber}
-              </Pagination.Item>
-              ))}
-              <Pagination.Next />
-              <Pagination.Last />
-            </Pagination>            
-          </div>
           {/* 페이지 네비게이션 추가 */}
 
           <hr />
@@ -313,58 +274,4 @@ const imgChange = async event => {
   )
 }
 
-export default EmpList
-
-/*
-
-
-1. <Pagination.First>
-- 처음 페이지로 이동하기(1번)
-- 현재페이지(currentPage)가 1이면 버튼 비활성화(disabled)
-
-2. <Pagination.Prev> -> onClick
-- 이전 페이지로 이동
-- 클릭하면 현재 내가 바라보는 페이지에서 -1을 했다
-
-3. 페이지 번호 생성 하고 출력 하기
-Array.from(
-                { length: Math.ceil(emps.length / itemsPerPage)},
-                (_,i) => i + 1
-전체 데이터 건수(emps.length-총레코드 수)를 한 페이지 갯수(itemsPerPage-5)
-로 나눠서 총 페이지수를 계산한다
-예) 115건/10개씩 = 11.XXX -> Math.ceil -> 12페이지
-
-active={pageNumber === currentPage} : 현재 내가 바라보는 페이지는 강조표시 좀 해줘
-
-Array.from() 
-- Array.from({length: N}, 콜백)
-- 두 번째 인자인 콜백의 첫번째 파라미터는 각 배열 요소의 값
-- 두 번째 파라미터는 배열의 인덱스 이다
-
-(_,i) => i + 1
-_ : 사용하지 않는 파라미터를 나타냄(이 값을 사용하지 않겠어)
-i : 배열의 인덱스 값이다. 0,1,2,,,,,,,
-i + 1 : 1,2,3,,,,N(1부터 시작하는 정수)
-
-4. <Pagination.Next>
-- 다음 페이지로 이동하기
-- 클릭한다면 currentPage + 1
-- 현재 내가 바라보는 페이지가 마지막 페이지라면 비활성화해줘(disabled)
-
-5. <Pagination.Last>
-- 마지막 페이지로 이동하기
-- 클릭한다면 마지막 페이지 번호로 이동
-- 만일 마지막 페이지에 있으면 비활성화
-
-전체 흐름
-- 최초/이전/번호/다음/마지막 페이지로 이동하는 버튼
-- 페이지 수 자동 계산
-  - 전체 페이지/한 페이지당 개수 -> 계산결과를 무조건 올림처리(CEIL)
-- 각 버튼 클릭시 handlePageChange 함수 호출 -> React상태 변경함(리덕스)
--> 상태가 바뀌면 리스트가 해당 페이지 데이터로 갱신된다(다시 렌더링 한다)
-
-문제제기
-- 소규모 데이터 연습용으로는 괜찮지만 대용량 데이터베이스 솔루션 에는 부적합하다
-- 대용량에서는 limit/offset 등으로 페이지별 데이터만 받아오는 구조로
-개선해야만 한다.
-*/
+export default EmpList2

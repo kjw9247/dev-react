@@ -5,31 +5,31 @@ import { Link, useParams } from "react-router-dom"
 import { MyInput } from "../style/FormStyle"
 import { useEffect, useState } from "react"
 import "../css/dept.css"
-
-// props가 바뀌어도 다시 그린다
+//props가 바뀌어도 다시 그린다
 const DeptDetailV2 = ({depts, onDeleteItem, onUpdateItem}) => {
   const { p_deptno } = useParams()
   const [dname, setDname] = useState('')
   const [loc, setLoc] = useState('')
-  console.log("p_deptno : "+p_deptno); // 0이거나 null이 되지 않도록 주의
-  
-  useEffect(() => {
+  console.log("p_deptno : "+p_deptno);//0이거나 null 되지 않도록 주의
+
+  useEffect(() =>{
     const deptItem = depts.find(item => item.deptno == p_deptno)
     console.log(deptItem);
     setDept({...deptItem})
-  },[p_deptno])// 파라미터로 받아오는 부서번호가 변경될 때만 호출함
+  },[p_deptno])//파라미터로 받아오는 부서번호가 변경될 때만 호출함
+
   const handleDname = (value) => {
     setDname(value)
   }
   const handleLoc = (value) => {
     setLoc(value)
   }
-  const [ dept, setDept ] = useState({
+  const [ dept, setDept] = useState({
     deptno: 0,
     dname: '',
     loc: '',
   })
-  const deptUpdate = () => {  
+  const deptUpdate = () => {
     const udept = {
       deptno: p_deptno,
       dname: dname,
@@ -45,17 +45,15 @@ const DeptDetailV2 = ({depts, onDeleteItem, onUpdateItem}) => {
       dname: '',
       loc: '',
     }
-    // handleClose를 호출하지 않아도 됨. 모달을 열지 않았기 때문
+    //handleClose호출하지 않아도 됨. 왜냐면 모달을 열지 않았으니까...
     onDeleteItem(dept)
   }
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  
   return (
     <>
-    <Header />
-
+      <Header />
       <div className="container">
         <div className="page-header">
           <h2>부서관리 <small>부서상세</small></h2>
@@ -83,7 +81,7 @@ const DeptDetailV2 = ({depts, onDeleteItem, onUpdateItem}) => {
       {/* ========================== [[ 수정 Modal ]] ========================== */}
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>부서수정</Modal.Title>
+          <Modal.Title>테스트수정</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
@@ -109,8 +107,7 @@ const DeptDetailV2 = ({depts, onDeleteItem, onUpdateItem}) => {
       </Modal>     
       {/* ========================== [[ 수정 Modal ]] ========================== */}          
       </div>
-    
-    <Footer />
+      <Footer />
     </>
   )
 }

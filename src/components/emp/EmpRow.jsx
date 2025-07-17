@@ -16,5 +16,4 @@ const EmpRow = ({emp}) => {
     </>
   )
 }
-
 export default EmpRow

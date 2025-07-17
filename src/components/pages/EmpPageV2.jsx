@@ -1,16 +1,15 @@
-import React from 'react'
 import Header from '../include/Header'
 import Footer from '../include/Footer'
-import EmpList from '../emp/EmpList'
+import EmpListV2 from '../emp/EmpListV2'
 
-const EmpPage = () => {
+const EmpPageV2 = () => {
   return (
     <>
       <Header />
-      <EmpList />
+      <EmpListV2 />
       <Footer />
     </>
   )
 }
 
-export default EmpPage
+export default EmpPageV2
